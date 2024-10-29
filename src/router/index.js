@@ -9,6 +9,11 @@ const router = createRouter({
       name: 'home',
       component: HomeView
     },
+    // {
+    //   path: '/:pathMatch(.*)*',  // Wildcard route for 404
+    //   name: 'NotFound',
+    //   component: // To be made
+    // },
     {
       path: '/about',
       name: 'about',
