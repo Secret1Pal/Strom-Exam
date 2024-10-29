@@ -1,0 +1,41 @@
+@import './base.scss';
+@import './flaticon';
+
+// Fonts
+@font-face {
+    font-family: "Webfront";
+    src: url("../fonts/fontawesome-webfont.eot") format("embedded-opentype"),
+    url("../fonts/fontawesome-webfont.ttf") format("truetype"),
+    url("../fonts/fontawesome-webfont.woff") format("woff"),
+    url("../fonts/fontawesome-webfont.woff2") format("woff2"),
+    url("../fonts/FontAwesome.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "Glyphicons";
+    src: url("../fonts/glyphicons-halflings-regular.eot") format("embedded-opentype"),
+    url("../fonts/glyphicons-halflings-regular.ttf") format("truetype"),
+    url("../fonts/glyphicons-halflings-regular.woff") format("woff"),
+    url("../fonts/glyphicons-halflings-regular.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Revicons";
+    src: url("../fonts/revicons90c6.eot") format("embedded-opentype"),
+    url("../fonts/revicons90c6.ttf") format("truetype"),
+    url("../fonts/revicons90c6.woff") format("woff");
+}
+
+
+// Color Palette REMINDER
+
+$EerieBlack: #222;
+$Pumpkin: #ff6600;
+$UCLABlue: #337ab7;
+$Onyx: #343742;
+$Charcoal: #474b5a;
+$DimGray: #676a73;
+$Gray: #777;
+$Platinum: #d4dae3;
+$PlatinumW: #e5e5e5;
+$Seasalt: #f8f8fa;
