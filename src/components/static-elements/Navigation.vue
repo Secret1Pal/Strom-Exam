@@ -1,16 +1,28 @@
 <script setup>
-import { ref, onMounted } from "vue"
+import { ref, onMounted, watchEffect } from "vue"
+import { eventBus } from '../eventBus';
 
-const menuActive = ref(false)
+const props = defineProps({
+
+})
+
+const menuActive = ref(true)
 const hasScrolled = ref(false)
 const navbar = ref(null)
 const flashbangActive = ref(false)
 
-const flashbangLoading = () =>{
+const flashbangLoading = () => {
     menuActive.value = !menuActive.value
     flashbangActive.value = !flashbangActive.value
-    setTimeout(()=>flashbangActive.value = !flashbangActive.value, 500)
-}
+    setTimeout(() => (flashbangActive.value = !flashbangActive.value), 500)
+};
+
+watchEffect(() => {
+    if (eventBus.triggerFlashbang) {
+        flashbangLoading()
+        eventBus.triggerFlashbang = false
+    }
+})
 
 const handleSubmit = (event) =>{
     const query = new FormData(event.target);
@@ -40,12 +52,12 @@ onMounted(()=>{
 <div class="container">
     <nav ref="navbar" class="navbar">
         <menu :class="{ 'active': menuActive}">
-            <li :class="{ 'active': $route.path === '/'}"><RouterLink @click="flashbangLoading" to="/">Forside</RouterLink></li>
-            <li :class="{ 'active': $route.path === '/about'}"><RouterLink @click="flashbangLoading" to="/about">Om os</RouterLink></li>
-            <li :class="{ 'active': $route.path === '/#'}"><RouterLink @click="flashbangLoading" to="#">Service</RouterLink></li>
-            <li :class="{ 'active': $route.path === '/#'}"><RouterLink @click="flashbangLoading" to="/#">FAQ</RouterLink></li>
-            <li :class="{ 'active': $route.path === '/#'}"><RouterLink @click="flashbangLoading" to="/#">Nyheder</RouterLink></li>
-            <li :class="{ 'active': $route.path === '/#'}"><RouterLink @click="flashbangLoading" to="/#">Kontakt os</RouterLink></li>
+            <li :class="{ 'active': $route.path === '/'}"><RouterLink to="/">Forside</RouterLink></li>
+            <li :class="{ 'active': $route.path === '/about'}"><RouterLink to="/about">Om os</RouterLink></li>
+            <li :class="{ 'active': $route.path === '/#'}"><RouterLink to="#">Service</RouterLink></li>
+            <li :class="{ 'active': $route.path === '/#'}"><RouterLink to="/#">FAQ</RouterLink></li>
+            <li :class="{ 'active': $route.path === '/#'}"><RouterLink to="/#">Nyheder</RouterLink></li>
+            <li :class="{ 'active': $route.path === '/#'}"><RouterLink to="/#">Kontakt os</RouterLink></li>
         </menu>
         <div class="burger" @click="menuActive = !menuActive">
             <img src="/images/submenu-icon.png" alt="Menu toggle Icon">
@@ -66,6 +78,7 @@ onMounted(()=>{
 .container{
     display: flex;
     justify-content: center;
+    height: 0;
 }
 
 .flashbang{
@@ -80,6 +93,7 @@ onMounted(()=>{
     transition: .4s ease-out;
     pointer-events: none;
     opacity: 0;
+    z-index: 999;
 
     &.active{
         pointer-events: all;
@@ -105,6 +119,7 @@ onMounted(()=>{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    z-index: 950;
 
     .burger{
         display: none;

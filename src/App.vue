@@ -48,7 +48,6 @@ onMounted(()=>{
 <template>
   <Header />
   <Navigation />
-  <div class="space"></div>
   <RouterView />
   <Footer />
 </template>
