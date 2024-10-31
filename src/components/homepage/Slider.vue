@@ -68,7 +68,9 @@ const stopAutoSlide = () => {
 
 onMounted(() => {
     setSlidePosition();
-    // startAutoSlide();
+    if(window.innerWidth > 500){
+        startAutoSlide();
+    }
 });
 
 onBeforeUnmount(() => {

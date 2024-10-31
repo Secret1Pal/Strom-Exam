@@ -24,7 +24,6 @@ onMounted(()=>{
 .container{
     width: 100%;
     height: 450px;
-    background-color: #f8f8fa;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -36,7 +35,7 @@ onMounted(()=>{
     }
 
     p{
-        width: 80%;
+        max-width: 900px;
         text-align: center;
         line-height: 24px;
         color: #676a73;

@@ -39,6 +39,9 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  if (to.path === from.path) {
+    return next()
+  }
   remoteEvent.triggerFlashbang = true
   next()
 })

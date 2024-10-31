@@ -1,5 +1,31 @@
+<script setup>
+import { ref, onMounted, onBeforeUnmount } from 'vue';
+
+const hasScrolled = ref(false)
+
+
+onMounted(() => {
+    const handleScroll = () => {
+        if (!hasScrolled.value && window.scrollY >= 700) {
+            console.log("Hello");
+            hasScrolled.value = true;
+        } else if (hasScrolled.value && window.scrollY < 700) {
+            console.log("Back");
+            hasScrolled.value = false;
+        }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    onBeforeUnmount(() => {
+        window.removeEventListener('scroll', handleScroll);
+    });
+});
+
+</script>
+
 <template>
-    <header class="header">
+    <header id="top" class="header">
         <div class="content">
             <figure>
                 <img src="/images/logo.png" alt="STRØM logo">
@@ -11,6 +37,9 @@
             </ol>
         </div>
     </header>
+    <a href="#top" :class="{'top-btn': true, 'active': hasScrolled}">
+        <v-icon name="fa-angle-up" scale="1.5" fill="#f8f8fa"/>
+    </a>
 </template>
 
 <style lang="scss" scoped>
@@ -69,6 +98,45 @@
                 }
             }
         }
+    }
+}
+
+.top-btn{
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    width: 50px;
+    height: 50px;
+    background-color: #ff6600;
+    border: 2px solid #ff6600;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    z-index: 960;
+    transition: .3s ease;
+    pointer-events: none;
+    opacity: 0;
+
+    &:hover{
+        background-color: #f8f8fa;
+        cursor: pointer;
+        svg{
+            fill: #ff6600;
+        }
+    }
+
+    &.active{
+        pointer-events: all;
+        opacity: 1;
+    }
+
+    @media screen and (max-width: 450px) {
+        bottom: 50px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
     }
 }
 

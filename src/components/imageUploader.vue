@@ -1,6 +1,35 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 
+/* The setup for it when imported
+
+const imageData = ref([])
+
+const checkData = async () => {
+  const formData = new FormData();
+
+  if(!imageData.value || imageData.value.length === 0){
+    alert("Choose Images before creating")
+    return
+  }
+
+  imageData.value.forEach(file => {
+    formData.append("images[]", file); // Use the correct key name
+  });
+
+  for (const [key, value] of formData) {
+    console.log(`${key}: ${value}`)
+  }
+};
+
+
+const emptyData = () =>{
+  imageData.value = []
+  console.log("Cleared")
+}
+
+*/
+
 const props = defineProps({
   maxImages: {
     type: Number,
@@ -37,7 +66,6 @@ const imageUrls = ref([])
 
 onMounted(()=>{
   if(props.initialImages.length === 0){
-    console.log("No initial images")
     return
   }
   props.initialImages.forEach(file=>{

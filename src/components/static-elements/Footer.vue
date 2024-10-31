@@ -46,25 +46,25 @@ const handleSubmit = () =>{
             <a href="https://www.google.co.uk" target="_blank">
                 <v-icon label="Facebook">
                     <v-icon name="fa-facebook" fill="#f8f8fa"/>
-                    <v-icon name="fa-regular-circle" scale="2" fill="#474b5a"/>
+                    <v-icon name="fa-regular-circle" scale="2" fill="#f8f8fa"/>
                 </v-icon>
             </a>
             <a href="https://www.google.co.uk" target="_blank">
                 <v-icon label="Twitter">
                     <v-icon name="fa-twitter" fill="#f8f8fa"/>
-                    <v-icon name="fa-regular-circle" scale="2" fill="#474b5a"/>
+                    <v-icon name="fa-regular-circle" scale="2" fill="#f8f8fa"/>
                 </v-icon>
             </a>
             <a href="https://www.google.co.uk" target="_blank">
                 <v-icon label="Vimeo">
                     <v-icon name="fa-vimeo" fill="#f8f8fa"/>
-                    <v-icon name="fa-regular-circle" scale="2" fill="#474b5a"/>
+                    <v-icon name="fa-regular-circle" scale="2" fill="#f8f8fa"/>
                 </v-icon>
             </a>
             <a href="https://www.google.co.uk" target="_blank">
                 <v-icon label="Linkedin">
                     <v-icon name="fa-linkedin" fill="#f8f8fa"/>
-                    <v-icon name="fa-regular-circle" scale="2" fill="#474b5a"/>
+                    <v-icon name="fa-regular-circle" scale="2" fill="#f8f8fa"/>
                 </v-icon>
             </a>
         </div>
@@ -184,10 +184,17 @@ const handleSubmit = () =>{
                 text-transform: uppercase;
                 border: none;
                 background-color: #ff6600;
-                border-radius: 5px;
+                border: 3px solid #ff6600;
+                border-radius: 7px;
                 color: #f8f8fa;
                 width: 120px;
                 height: 50px;
+                transition: .3s ease;
+                
+                &:hover{
+                    cursor: pointer;
+                    background-color: #ff660050;
+                }
             }
         }
     }
@@ -229,7 +236,7 @@ const handleSubmit = () =>{
                 margin: 10px 0 0 0;
 
                 input{
-                    width: 90%;
+                    width: 80%;
                 }
             }
         }
@@ -258,6 +265,15 @@ const handleSubmit = () =>{
 
     svg{
         margin: 0 0 0 10px;
+        border-radius: 50%;
+        transition: .2s ease-in;
+    }
+
+    a:hover{
+        svg{
+            background-color: #f8f8fa;
+            fill: #ff6600;
+        }
     }
 
     @media screen and (max-width: 920px) {
