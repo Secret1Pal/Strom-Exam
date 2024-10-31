@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import { eventBus } from '../components/eventBus';
+import { remoteEvent } from '../components/remoteEvent';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -39,7 +39,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  eventBus.triggerFlashbang = true
+  remoteEvent.triggerFlashbang = true
   next()
 })
 

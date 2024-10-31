@@ -1,26 +1,31 @@
 <script setup>
 import { ref, onMounted, watchEffect } from "vue"
-import { eventBus } from '../eventBus';
+import { remoteEvent } from '../remoteEvent';
 
 const props = defineProps({
 
 })
 
-const menuActive = ref(true)
+const menuActive = ref(false)
 const hasScrolled = ref(false)
 const navbar = ref(null)
 const flashbangActive = ref(false)
+const cancelFirstExecution = ref(true)
 
 const flashbangLoading = () => {
-    menuActive.value = !menuActive.value
-    flashbangActive.value = !flashbangActive.value
-    setTimeout(() => (flashbangActive.value = !flashbangActive.value), 500)
+    if(!cancelFirstExecution.value){
+        menuActive.value = false
+        flashbangActive.value = true
+        setTimeout(() => (flashbangActive.value = false), 500)
+    } else {
+        cancelFirstExecution.value = false
+    }
 };
 
 watchEffect(() => {
-    if (eventBus.triggerFlashbang) {
+    if (remoteEvent.triggerFlashbang) {
         flashbangLoading()
-        eventBus.triggerFlashbang = false
+        remoteEvent.triggerFlashbang = false
     }
 })
 
