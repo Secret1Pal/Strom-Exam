@@ -8,30 +8,30 @@
             <div class="line"></div>
             <div class="service-box">
                 <div class="service">
-                    <v-icon name="fa-fan" scale="3" fill="#ff6600"/>
+                    <i class="fi flaticon-lamp"></i>
                     <div class="text">
                         <div class="title">Strøm</div>
                         <p>Lorem ipsum dolor sit amet constur adip isicg elit sed do eiusmtempor incid dolore magna.</p>
                     </div>
                 </div>
                 <div class="service">
-                    <v-icon name="fa-fan" scale="3" fill="#ff6600"/>
+                    <i class="fi flaticon-technology"></i>
                     <div class="text">
-                        <div class="title">Strøm</div>
+                        <div class="title">Sikkerhed</div>
                         <p>Lorem ipsum dolor sit amet constur adip isicg elit sed do eiusmtempor incid dolore magna.</p>
                     </div>
                 </div>
                 <div class="service">
-                    <v-icon name="fa-fan" scale="3" fill="#ff6600"/>
+                    <i class="fi flaticon-fan"></i>
                     <div class="text">
-                        <div class="title">Strøm</div>
+                        <div class="title">Air Conditioning</div>
                         <p>Lorem ipsum dolor sit amet constur adip isicg elit sed do eiusmtempor incid dolore magna.</p>
                     </div>
                 </div>
                 <div class="service">
-                    <v-icon name="fa-fan" scale="3" fill="#ff6600"/>
+                    <i class="fi flaticon-air-conditioner-1"></i>
                     <div class="text">
-                        <div class="title">Strøm</div>
+                        <div class="title">Varme</div>
                         <p>Lorem ipsum dolor sit amet constur adip isicg elit sed do eiusmtempor incid dolore magna.</p>
                     </div>
                 </div>
@@ -75,6 +75,12 @@
                 margin: 40px 0 0 0px;
                 display: flex;
                 width: calc(50% - 10px);
+
+                i{
+                    color: #ff6600;
+                    font-size: 38px;
+                    scale: 1.2;
+                }
 
                 .text{
                     margin: 0 0 0 20px;

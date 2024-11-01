@@ -144,7 +144,6 @@ onMounted(()=>{
                 text-transform: uppercase;
                 transition: .2s ease-in;
                 font-size: 16px;
-                font-weight: bold;
 
                 &:hover{
                     color: #ff6600;
