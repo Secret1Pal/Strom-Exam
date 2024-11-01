@@ -21,6 +21,16 @@ const router = createRouter({
       component: () => import('../views/AboutView.vue')
     },
     {
+      path: '/nyheder',
+      name: 'nyheder',
+      component: () => import('../views/Nyheder.vue')
+    },
+    {
+      path: '/nyhed/:id',
+      name: 'nyhed',
+      component: () => import('../views/Nyhed.vue')
+    },
+    {
       path: '/login',
       name: 'login',
       component: () => import('../views/LoginView.vue')
@@ -38,13 +48,17 @@ const router = createRouter({
   ]
 })
 
+let isFirstNavigation = true
+
 router.beforeEach((to, from, next) => {
-  if (to.path === from.path) {
-    return next()
+  if (isFirstNavigation) {
+    remoteEvent.triggerFlashbang = true
+    isFirstNavigation = false
+  } else if (to.path !== from.path) {
+    remoteEvent.triggerFlashbang = true
   }
-  remoteEvent.triggerFlashbang = true
   next()
-})
+});
 
 
 export default router

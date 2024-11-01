@@ -59,10 +59,10 @@ onMounted(()=>{
         <menu :class="{ 'active': menuActive}">
             <li :class="{ 'active': $route.path === '/'}"><RouterLink to="/">Forside</RouterLink></li>
             <li :class="{ 'active': $route.path === '/about'}"><RouterLink to="/about">Om os</RouterLink></li>
-            <li :class="{ 'active': $route.path === '/#'}"><RouterLink to="#">Service</RouterLink></li>
-            <li :class="{ 'active': $route.path === '/#'}"><RouterLink to="/#">FAQ</RouterLink></li>
-            <li :class="{ 'active': $route.path === '/#'}"><RouterLink to="/#">Nyheder</RouterLink></li>
-            <li :class="{ 'active': $route.path === '/#'}"><RouterLink to="/#">Kontakt os</RouterLink></li>
+            <li :class="{ 'active': $route.path === '/service'}"><RouterLink to="service">Service</RouterLink></li>
+            <li :class="{ 'active': $route.path === '/faq'}"><RouterLink to="/faq">FAQ</RouterLink></li>
+            <li :class="{ 'active': $route.path === '/nyheder'}"><RouterLink to="/nyheder">Nyheder</RouterLink></li>
+            <li :class="{ 'active': $route.path === '/contact'}"><RouterLink to="/contact">Kontakt os</RouterLink></li>
         </menu>
         <div class="burger" @click="menuActive = !menuActive">
             <img src="/images/submenu-icon.png" alt="Menu toggle Icon">

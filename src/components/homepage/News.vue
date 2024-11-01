@@ -8,14 +8,11 @@ const data = [
 ];
 
 function formatDate(dateString) {
-  const date = new Date(dateString);
-  const options = { day: 'numeric', month: 'short' };
-  return date.toLocaleDateString('en-GB', options);
+  const date = new Date(dateString) 
+  const day = String(date.getDate()).padStart(2, '0')
+  const month = date.toLocaleString('en-GB', { month: 'short' })
+  return `${day} ${month}`
 }
-
-data.forEach(item => {
-  item.received = formatDate(item.received);
-});
 
 onMounted(()=>{
 
@@ -35,6 +32,19 @@ onMounted(()=>{
     })
 })
 
+// function formatCutText(text) {
+//     const charLimit = 90;
+//     if (text.length > charLimit) {
+//         let newText = text.slice(0, charLimit);
+//         const lastSpace = newText.lastIndexOf(" ");
+//         if (lastSpace !== -1) {
+//             newText = newText.slice(0, lastSpace); // Trim to the last whole word
+//         }
+//         return `${newText}...`;
+//     }
+//     return text;
+// }
+
 </script>
 <template>
 
@@ -46,7 +56,7 @@ onMounted(()=>{
     </div>
     <div class="card-container">
         <div class="card">
-            <div class="date">{{ data[0].received }}</div>
+            <div class="date">{{ formatDate(data[0].received) }}</div>
             <figure>
                 <RouterLink to="/about">
                     <img v-lazy data-src="/images/news/1.jpg" alt="">
@@ -56,7 +66,7 @@ onMounted(()=>{
             <p id="cutText">Lorem ipsum dolor amet consectetur adipiciciing elit sed eiusm tempor incididunt ut labore dolore magna aliqua enim ad minim</p>
         </div>
         <div class="card">
-            <div class="date">{{ data[1].received }}</div>
+            <div class="date">{{ formatDate(data[1].received) }}</div>
             <figure>
                 <RouterLink to="/about">
                     <img v-lazy data-src="/images/news/2.jpg" alt="">
@@ -66,7 +76,7 @@ onMounted(()=>{
             <p id="cutText">Lorem ipsum dolor amet consectetur adipiciciing elit sed eiusm tempor incididunt ut labore dolore magna aliqua enim ad minim</p>
         </div>
         <div class="card">
-            <div class="date">{{ data[2].received }}</div>
+            <div class="date">{{ formatDate(data[2].received) }}</div>
             <figure>
                 <RouterLink to="/about">
                     <img v-lazy data-src="/images/news/3.jpg" alt="">
