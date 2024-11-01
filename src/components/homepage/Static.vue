@@ -3,7 +3,7 @@
 <div class="container">
     <h3>Skal du bruge <span style='color: #ff6600;'>hjælp</span> fra <span style='color: #ff6600;'>Strøm?</span></h3>
     <p>Lorems ipsum dolor sit amet, consectetur</p>
-    <RouterLink to="/about">Kontakt os</RouterLink>
+    <RouterLink to="/contact">Kontakt os</RouterLink>
 </div>
 
 </template>

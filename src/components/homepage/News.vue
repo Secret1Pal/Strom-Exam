@@ -58,7 +58,7 @@ onMounted(()=>{
         <div class="card">
             <div class="date">{{ formatDate(data[0].received) }}</div>
             <figure>
-                <RouterLink to="/about">
+                <RouterLink :to="{ name: 'nyhed', params: { id: data[1] } }">
                     <img v-lazy data-src="/images/news/1.jpg" alt="">
                 </RouterLink>
             </figure>
@@ -68,7 +68,7 @@ onMounted(()=>{
         <div class="card">
             <div class="date">{{ formatDate(data[1].received) }}</div>
             <figure>
-                <RouterLink to="/about">
+                <RouterLink :to="{ name: 'nyhed', params: { id: data[1] } }">
                     <img v-lazy data-src="/images/news/2.jpg" alt="">
                 </RouterLink>
             </figure>
@@ -78,7 +78,7 @@ onMounted(()=>{
         <div class="card">
             <div class="date">{{ formatDate(data[2].received) }}</div>
             <figure>
-                <RouterLink to="/about">
+                <RouterLink :to="{ name: 'nyhed', params: { id: data[1] } }">
                     <img v-lazy data-src="/images/news/3.jpg" alt="">
                 </RouterLink>
             </figure>
@@ -86,7 +86,7 @@ onMounted(()=>{
             <p id="cutText">Lorem ipsum dolor amet consectetur adipiciciing elit sed eiusm tempor incididunt ut labore dolore magna aliqua enim ad minim</p>
         </div>
     </div>
-    <RouterLink to="/about" class="link">Flere nyheder</RouterLink>
+    <RouterLink to="/nyheder" class="link">Flere nyheder</RouterLink>
 </div>
 </template>
 

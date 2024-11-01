@@ -10,15 +10,25 @@ const router = createRouter({
       name: 'home',
       component: HomeView
     },
-    // {
-    //   path: '/:pathMatch(.*)*',  // Wildcard route for 404
-    //   name: 'NotFound',
-    //   component: // To be made
-    // },
     {
       path: '/about',
       name: 'about',
       component: () => import('../views/AboutView.vue')
+    },
+    {
+      path: '/contact',
+      name: 'contact',
+      component: () => import('../views/Contact.vue')
+    },
+    {
+      path: '/faq',
+      name: 'faq',
+      component: () => import('../views/FAQ.vue')
+    },
+    {
+      path: '/service',
+      name: 'service',
+      component: () => import('../views/Service.vue')
     },
     {
       path: '/nyheder',
@@ -44,7 +54,12 @@ const router = createRouter({
       path: '/admin/home',
       name: 'adminHome',
       component: () => import('../views/admin/HomeView.vue')
-    }
+    },
+    {
+      path: '/:pathMatch(.*)*',  // Wildcard route for 404
+      name: 'NotFound',
+      component: () => import('../views/NotFound.vue')
+    },
   ]
 })
 

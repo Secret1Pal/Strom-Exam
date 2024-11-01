@@ -12,6 +12,13 @@ const route = useRoute()
 const id = ref(route.params.id)
 const data = ref(rawData[0])
 
+const handleSubmit = (event) =>{
+    const fd = new FormData(event.target);
+    for (const [key, value] of fd) {
+        console.log(`${key}: ${value}`)
+    }
+}
+
 function formatDate(dateString) {
   const date = new Date(dateString) 
   const day = String(date.getDate()).padStart(2, '0')
@@ -25,6 +32,14 @@ function formatDateWYear(dateString) {
   const month = date.toLocaleString('en-GB', { month: 'short' });
   const year = date.getFullYear();
   return `${day} ${month}, ${year}`;
+}
+
+function formatDateWYearMonthFirst(dateString) {
+  const date = new Date(dateString);
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = date.toLocaleString('en-GB', { month: 'short' });
+  const year = date.getFullYear();
+  return `${month} ${day}, ${year}`;
 }
 
 </script>
@@ -63,6 +78,23 @@ function formatDateWYear(dateString) {
                     <p v-html="data.content"></p>
                 </div>
             </div>
+        </div>
+        <div class="comments">
+            <div class="title">Kommentarer ({{ data.comments.length }})</div>
+            <div class="comment" v-for="item in data.comments">
+                <div class="name">{{ item.name }}</div>
+                <div class="date"><v-icon name="fa-calendar-alt"/>{{ formatDateWYearMonthFirst(item.received) }}</div>
+                <div class="text">{{ item.comment }}</div>
+            </div>
+        </div>
+        <div class="write-comment">
+            <div class="title">Skriv en kommentar</div>
+            <form v-on:submit.prevent="handleSubmit">
+                <input type="text" name="name" placeholder="Navn" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <textarea name="comment" placeholder="Kommentar" required></textarea>
+                <button type="submit">Send besked</button>
+            </form>
         </div>
     </div>
 </div>
@@ -268,6 +300,104 @@ function formatDateWYear(dateString) {
 
             .card-content{
                 padding: 10px;
+            }
+        }
+    }
+}
+
+.comments{
+    width: 550px;
+    margin: 70px 350px 0 0;
+    padding: 0 0 30px 0;
+    justify-self: flex-start;
+    border-bottom: 2px solid #e5e5e5;
+    .title{
+        font-size: 22px;
+        font-weight: bold;
+    }
+    .comment{
+        padding: 10px 20px;
+        .name{
+            font-size: 18px;
+        }
+        .date{
+            color: #676a73;
+            margin: 10px 0;
+            svg{
+                margin: 0 5px 0 0;
+            }
+        }
+        .text{
+            color: #676a73;
+            line-height: 20px;
+        }
+    }
+    @media screen and (max-width: 930px) {
+        width: 100%;
+        margin: 70px 10px;
+    }
+}
+
+.write-comment{
+    width: 550px;
+    margin: 70px 350px 0 0;
+    padding: 0 0 30px 0;
+    .title{
+        font-size: 22px;
+    }
+    input,textarea{
+        box-sizing: border-box;
+        outline: none;
+        border: 2px solid #e5e5e5;
+        background-color: #f8f8fa;
+        border-radius: 3px;
+        transition: .2s ease;
+
+        &:focus{
+            border: 2px solid #222;
+        }
+    }
+    input{
+        width: 250px;
+        margin: 20px 25px 0 0;
+        padding: 10px;
+        &:nth-child(2){
+            margin: 20px 0 0 25px;
+        }
+    }
+    textarea{
+        min-height: 200px;
+        width: 100%;
+        padding: 10px;
+        margin: 20px 0;
+        resize: vertical;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    button{
+        background-color: #ff6600;
+        border: 2px solid #ff6600;
+        color: #f8f8fa;
+        padding: 10px 20px;
+        text-transform: uppercase;
+        border-radius: 3px;
+        transition: .2s ease-in;
+
+        &:hover{
+            background-color: #f8f8fa;
+            color: #ff6600;
+            cursor: pointer;
+        }
+    }
+    @media screen and (max-width: 930px) {
+        width: 100%;
+        margin: 0 10px;
+
+        input{
+            width: 250px;
+            margin: 20px 25px 0 0;
+            padding: 10px;
+            &:nth-child(2){
+                margin: 20px 0 0 0;
             }
         }
     }

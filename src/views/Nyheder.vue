@@ -128,7 +128,7 @@ function formatCutText(text) {
                 <div class="date">{{ formatDate(item.received) }}</div>
                 <figure>
                     <RouterLink :to="{ name: 'nyhed', params: { id: item._id.$oid } }">
-                    <img :src="`/images/news/${item.image}`" alt="">
+                        <img :src="`/images/news/${item.image}`" alt="">
                     </RouterLink>
                 </figure>
                 <div class="card-content">

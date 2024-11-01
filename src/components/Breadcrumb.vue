@@ -46,8 +46,7 @@ const props = defineProps({
 
 .breadcrumb-container{
     background-color: #e5e5e5;
-    padding: 30px 10px 0 10px;
-    height: 110px;
+    padding: 60px 10px 40px 10px;
 }
 
 .breadcrumb-content{
@@ -65,6 +64,7 @@ const props = defineProps({
     }
 
     .breadcrumb{
+        margin: 10px 0 0 0;
         a{
             color: #777;
             text-decoration: none;

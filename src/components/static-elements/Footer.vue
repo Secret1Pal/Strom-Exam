@@ -16,10 +16,10 @@ const handleSubmit = () =>{
         <div class="link">
             <h4>Link</h4>
             <ol>
-                <li><v-icon name="fa-angle-right" fill="#d4dae3"/><RouterLink to="/#">FAQ</RouterLink></li>
-                <li><v-icon name="fa-angle-right" fill="#d4dae3"/><RouterLink to="/#">Om os</RouterLink></li>
-                <li><v-icon name="fa-angle-right" fill="#d4dae3"/><RouterLink to="/#">Kontakt os</RouterLink></li>
-                <li><v-icon name="fa-angle-right" fill="#d4dae3"/><RouterLink to="/#">Services</RouterLink></li>
+                <li><v-icon name="fa-angle-right" fill="#d4dae3"/><RouterLink to="/faq">FAQ</RouterLink></li>
+                <li><v-icon name="fa-angle-right" fill="#d4dae3"/><RouterLink to="/about">Om os</RouterLink></li>
+                <li><v-icon name="fa-angle-right" fill="#d4dae3"/><RouterLink to="/contact">Kontakt os</RouterLink></li>
+                <li><v-icon name="fa-angle-right" fill="#d4dae3"/><RouterLink to="/service">Services</RouterLink></li>
             </ol>
         </div>
         <div class="contact">
@@ -168,7 +168,7 @@ const handleSubmit = () =>{
             flex-flow: column nowrap;
 
             input{
-                border: none;
+                border: 2px solid #474b5a;
                 outline: none;
                 padding: 15px;
                 border-radius: 5px;
@@ -176,6 +176,9 @@ const handleSubmit = () =>{
                 color: #f8f8fa;
                 &::placeholder{
                     color: #222;
+                }
+                &:focus{
+                    border: 2px solid #676a73;
                 }
             }
 

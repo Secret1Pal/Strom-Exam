@@ -16,6 +16,7 @@ const flashbangLoading = () => {
     if(!cancelFirstExecution.value){
         menuActive.value = false
         flashbangActive.value = true
+        window.scrollTo(0, 0)
         setTimeout(() => (flashbangActive.value = false), 500)
     } else {
         cancelFirstExecution.value = false

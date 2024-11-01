@@ -55,7 +55,7 @@ const setSlidePosition = () => {
         (pressAble = true)
         activeLeft.value = false
         activeRight.value = false
-    }, 400);
+    }, 700);
 }
 
 const startAutoSlide = () => {
@@ -100,7 +100,7 @@ onBeforeUnmount(() => {
                 
             </div>
         </div>
-        <RouterLink :class="{[slider.activeLeft]: activeLeft, [slider.activeRight]: activeRight}" to="/about">Kontakt os</RouterLink>
+        <RouterLink :class="{[slider.activeLeft]: activeLeft, [slider.activeRight]: activeRight}" to="/contact">Kontakt os</RouterLink>
         <section>
             <v-icon @click="moveSlide(false)" name="fa-arrow-circle-left" fill="#f8f8fa"/>
             <v-icon @click="moveSlide(true)" name="fa-arrow-circle-right" fill="#f8f8fa"/>

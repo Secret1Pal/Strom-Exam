@@ -4,7 +4,7 @@ import Breadcrumb from '@/components/Breadcrumb.vue';
 </script>
 
 <template>
-<Breadcrumb title="Om os" nav="Om os"/>
+<Breadcrumb title="Kontakt os" nav="Kontakt os"/>
 </template>
 
 <style lang="scss" scoped>
