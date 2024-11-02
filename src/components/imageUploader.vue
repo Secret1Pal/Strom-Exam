@@ -41,11 +41,6 @@ const props = defineProps({
     required: false,
     default: "imageUploader"
   },
-  required: {
-    type: Boolean,
-    required: false,
-    default: true
-  },
   imageFiles: {
     type: Array,
     required: true,
@@ -142,7 +137,6 @@ const clearImages = () =>{
   border: 1px solid #ccc;
   border-radius: 8px;
   max-width: 400px;
-  margin: auto;
   background-color: #f9f9f9;
 }
 
@@ -150,7 +144,7 @@ const clearImages = () =>{
   display: inline-block;
   padding: 10px 15px;
   margin: 10px 0;
-  background-color: #4caf50;
+  background-color: #ff6600;
   color: #fff;
   border-radius: 4px;
   cursor: pointer;
@@ -158,7 +152,7 @@ const clearImages = () =>{
 }
 
 .file-label:hover {
-  background-color: #448f48;
+  background-color: #c75000;
 }
 
 .file-input {
@@ -204,13 +198,12 @@ const clearImages = () =>{
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  background-color: #ff6b6b;
+  background-color: rgb(240, 0, 0);
   color: #fff;
-  transition: background-color 0.3s;
 }
 
 .clear-button:hover {
-  background-color: #e43838;
+  background-color: #850000;
 }
 
 

@@ -1,0 +1,11 @@
+[
+  {
+    "_id": {
+      "$oid": "6363a1635b620837555b01da"
+    },
+    "content": "<p><strong>Hvem er vi <u>mon</u></strong></p><p>Derudover er vores el-firma eksperter inden for strømbesparende løsninger. Så ønsker du at spare på energien, har vi et bredt udvalg af produkter og komponenter til elinstallationer, som gavner både elregningen og miljøet.</p><ul><li>Antenneinstallation</li><li><strong>Varmepumper</strong></li><li><em>Solceller</em></li><li>Og meget andet ...</li></ul>",
+    "teaser": "Lorems ipsum dolor sit amet, consectetur adipiscing elit. Fusce quis lectus quis sem lacinia nonummy. Proin mollis lorem non dolor. In hac habitasse platea dictumst. Nulla ultrices odio. Donec augue. Phasellus dui. Maecenas facilisis nisl vitae nibh. Proin vel seo est vitae eros pretium dignissim. Aliquam aliquam sodales orci. Suspendisse potenti. Nunc adipiscing euismod arcu. Quisque facilisis mattis lacus.",
+    "title": "Lidt om STRØMS",
+    "image": "1.jpg"
+  }
+]

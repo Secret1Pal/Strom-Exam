@@ -1,13 +1,18 @@
 <script setup>
+import { inject } from 'vue';
 
 const handleSubmit = () =>{
 
 }
 
+const { userState, login, logout } = inject("user");
+
 </script>
 
 <template>
 <footer class="footer">
+    <RouterLink v-if="!userState.isLoggedIn" class="administrative_link" to="/login">Login...</RouterLink>
+    <RouterLink v-else class="administrative_link" to="/admin/home">Return to Admin</RouterLink>
     <div class="main-content">
         <figure>
             <img v-lazy data-src="/images/logo.png" src="/images/logo.png" alt="STRØM logo">
@@ -74,7 +79,22 @@ const handleSubmit = () =>{
 
 <style lang="scss" scoped>
 
+.administrative_link{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    padding: 5px;
+    color: #777;
+    text-decoration: none;
+    transition: .2s ease-in;
+
+    &:hover{
+        color: #e5e5e5;
+    }
+}
+
 .footer{
+    position: relative;
     background-color: #343742;
     height: 400px;
     width: 100%;

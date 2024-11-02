@@ -30,13 +30,11 @@
         justify-content: center;
         align-items: center;
         font-size: 32px;
-        background-color: transparent;
-        inset: 50%;
-        transform: translate(-50%, -50%);
-        overflow:visible;
-        background-color: #ffffffd9;
-        border-radius: 10px;
-        padding: 10px 5px 10px 20px;
+        left: 20px;
+        top: 20px;
+        padding: 15px 30px;
+        border-radius: 100px;
+        box-shadow: 0 0 15px #222222b2;
 
         .let{
             animation: let 1s ease infinite;
@@ -50,8 +48,8 @@
     }
 
     dialog::backdrop{
-        background: #ffffff20;
-        backdrop-filter: blur(5px);
+        background: transparent;
+        pointer-events: none;
     }
 
     @keyframes let {

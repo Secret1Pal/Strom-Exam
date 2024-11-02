@@ -53,7 +53,27 @@ const router = createRouter({
     {
       path: '/admin/home',
       name: 'adminHome',
-      component: () => import('../views/admin/HomeView.vue')
+      component: () => import('../views/admin/AdminHome.vue')
+    },
+    {
+      path: '/admin/about',
+      name: 'aboutedit',
+      component: () => import('../views/admin/AboutPut.vue')
+    },
+    {
+      path: '/admin/news',
+      name: 'newstable',
+      component: () => import('../views/admin/NewsTable.vue')
+    },
+    {
+      path: '/admin/news/post',
+      name: 'newspost',
+      component: () => import('../views/admin/NewsPost.vue')
+    },
+    {
+      path: '/admin/news/put/:id',
+      name: 'newsput',
+      component: () => import('../views/admin/NewsPut.vue')
     },
     {
       path: '/:pathMatch(.*)*',  // Wildcard route for 404

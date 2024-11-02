@@ -1,5 +1,7 @@
 <script setup>
 import Breadcrumb from '@/components/Breadcrumb.vue';
+import Testimonial from '@/components/homepage/Testimonial.vue';
+import Team from '@/components/homepage/Team.vue';
 import { onMounted, ref } from 'vue';
 
 const html = ref("<p><strong>Hvem er vi <u>mon</u></strong></p><p>Derudover er vores el-firma eksperter inden for strømbesparende løsninger. Så ønsker du at spare på energien, har vi et bredt udvalg af produkter og komponenter til elinstallationer, som gavner både elregningen og miljøet.</p><ul><li>Antenneinstallation</li><li><strong>Varmepumper</strong></li><li><em>Solceller</em></li><li>Og meget andet ...</li></ul>")
@@ -8,6 +10,9 @@ onMounted(() => {
 
     const titleElement = document.getElementById("title");
     titleElement.innerHTML = titleElement.innerHTML.replace("STRØM", "<span style='color: #ff6600; font-weight: bold;'>STRØM</span>");
+
+    const subtitleElement = document.getElementById("subtitle");
+    subtitleElement.innerHTML = subtitleElement.innerHTML.replace("Hvem er vi <u>mon</u>", "Hvem er vi mon<div class='line'></div>");
 })
 </script>
 
@@ -25,14 +30,17 @@ onMounted(() => {
 
     <div :class="about.secondContainer">
         <div :class="about.content">
-            <div :class="about.title">Hvem er vi</div>
-            <div :class="about.line"></div>
-            <div :class="about.text" v-html="html"></div>
+            <div id="subtitle" :class="about.text" v-html="html"></div>
+            <RouterLink to="/contact">Kontakt os</RouterLink>
         </div>
         <figure>
             <img v-lazy data-src="/images/1.jpg" alt="">
         </figure>
     </div>
+
+    <Testimonial />
+
+    <Team />
 
 </template>
 
@@ -90,65 +98,118 @@ onMounted(() => {
             left: 140%;
         }
     }
+
+    @media screen and (max-width: 940px) {
+        min-height: 50px;
+    }
 }
 
 .secondContainer{
-    width: 900px;
-    height: 400px;
+    max-width: 900px;
+    min-height: 400px;
+    padding: 20px 10px;
     margin: 0 auto;
-    // background-color: red;
     display: flex;
     justify-content: space-between;
 
     .content{
-        width: 450px;
-        .title{
-            font-size: 20px;
-        }
+        max-width: 450px;
         .text{
-            line-height: 20px;
+            line-height: 22px;
+            margin: 0 20px 0 0;
+            color: #676a73;
             ul,ol{
-                margin: 0 0 0 20px;
+                margin: 30px 0 0 20px;
+                list-style-type: none;
+                position: relative;
+                li{
+                    margin: 5px 0;
+                }
+                li::before{
+                    content: "";
+                    height: 8px;
+                    width: 8px;
+                    border-radius: 50%;
+                    border: 2px solid #676a73;
+                    position: absolute;
+                    left: -20px;
+                    transform: translate(0, 5px);
+                }
+            }
+
+            p{
+                &:nth-child(1){
+                    font-size: 18px;
+                    color: #222;
+                }
+            }
+
+            div {
+                margin: 10px 0;
+                height: 2px;
+                width: 50px;
+                translate: 0px;
+                background-color: #d4dae3;
+                position: relative;
+
+                &::after {
+                    content: "";
+                    position: absolute;
+                    width: 8px;
+                    height: 8px;
+                    border: 2px solid #ff6600;
+                    border-radius: 50%;
+                    top: 1px;
+                    left: 120%;
+                    transform: translate(-50%, -50%);
+                    z-index: 8;
+                }
+
+                &::before {
+                    content: "";
+                    position: absolute;
+                    width: 50px;
+                    height: 2px;
+                    background-color: #d4dae3;
+                    top: 0;
+                    left: 140%;
+                }
             }
         }
-        .line {
-            margin: 10px 0;
-            height: 2px;
-            width: 40px;
-            translate: 0px;
-            background-color: #d4dae3;
-            position: relative;
+        a{
+            text-decoration: none;
+            display: inline-block;
+            border: 2px solid #ff6600;
+            background-color: #ff6600;
+            color: #f8f8fa;
+            text-transform: uppercase;
+            border-radius: 5px;
+            font-size: 14px;
+            padding: 15px 25px;
+            margin: 20px 0 0 0;
+            transition: .2s ease-in;
 
-            &::after {
-                content: "";
-                position: absolute;
-                width: 8px;
-                height: 8px;
-                border: 2px solid #ff6600;
-                border-radius: 50%;
-                top: 1px;
-                left: 120%;
-                transform: translate(-50%, -50%);
-                z-index: 8;
-            }
-
-            &::before {
-                content: "";
-                position: absolute;
-                width: 40px;
-                height: 2px;
-                background-color: #d4dae3;
-                top: 0;
-                left: 140%;
+            &:hover{
+                cursor: pointer;
+                background-color: transparent;
+                color: #ff6600;
             }
         }
     }
 
     figure{
-        width: 450px;
+        max-width: 450px;
         height: 300px;
         overflow: hidden;
         border-radius: 6px;
+    }
+
+    @media screen and (max-width: 940px) {
+        flex-flow: row wrap-reverse;
+        figure{
+            max-width: 500px;
+            margin: 40px auto;
+        }
     }
 }
 </style>

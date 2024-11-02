@@ -7,20 +7,18 @@ const hasScrolled = ref(false)
 onMounted(() => {
     const handleScroll = () => {
         if (!hasScrolled.value && window.scrollY >= 700) {
-            console.log("Hello");
-            hasScrolled.value = true;
+            hasScrolled.value = true
         } else if (hasScrolled.value && window.scrollY < 700) {
-            console.log("Back");
-            hasScrolled.value = false;
+            hasScrolled.value = false
         }
-    };
+    }
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll)
 
     onBeforeUnmount(() => {
-        window.removeEventListener('scroll', handleScroll);
-    });
-});
+        window.removeEventListener('scroll', handleScroll)
+    })
+})
 
 </script>
 
@@ -51,6 +49,7 @@ onMounted(() => {
     display: flex;
     justify-content: center;
     align-items: flex-start;
+    position: relative;
 }
 
 .content{

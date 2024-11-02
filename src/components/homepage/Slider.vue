@@ -55,7 +55,7 @@ const setSlidePosition = () => {
         (pressAble = true)
         activeLeft.value = false
         activeRight.value = false
-    }, 700);
+    }, 400);
 }
 
 const startAutoSlide = () => {

@@ -42,7 +42,7 @@ const handleSubmit = async (event) => {
 
 <div class="login-container">
     <form class="login-form" @submit.prevent="handleSubmit">
-      <h2>Admin Login <v-icon name="fa-vuejs" scale="2" animation="float"/></h2>
+      <h2>Admin Login <v-icon name="fa-regular-lightbulb" scale="2" animation="float"/></h2>
       <div class="form-group">
         <label for="email">Email:</label>
         <input name="email" type="email" id="email" placeholder="Enter your email" required />
@@ -68,26 +68,23 @@ const handleSubmit = async (event) => {
 
 
 .login-container {
-  background-color: white;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #f8f8fa;
   border-radius: 10px;
   max-width: 400px;
   text-align: center;
-  margin: 0 auto;
+  margin: 100px auto;
   padding: 20px;
-  top: 100px;
   position: relative;
 
   @media only screen and (max-width: 440px) {
     border: 0;
-    box-shadow: none;
-    padding: 5px
+    padding: 5px;
   }
 }
 
 h2 {
   padding: 0 0 20px 0;
-  color: #42b983;
+  color: #ff6600;
   font-size: 26bpx;
 }
 
@@ -107,22 +104,22 @@ h2 {
   width: 100%;
   padding: 10px;
   box-sizing: border-box;
-  border: 1px solid #ccc;
+  border: 1px solid #e5e5e5;
   border-radius: 5px;
   font-size: 16px;
   transition: 0.2s ease;
 }
 
 .form-group input:focus {
-  border-color: #42b983;
+  border-color: #ff6600;
   outline: none;
 }
 
 .login-button {
   width: 50%;
   padding: 12px;
-  background-color: #42b983;
-  color: white;
+  background-color: #ff6600;
+  color: #f8f8fa;
   border: none;
   border-radius: 5px;
   font-size: 18px;
@@ -135,11 +132,11 @@ h2 {
 }
 
 .login-button:disabled {
-  background-color: #a0a0a0;
+  background-color: #e5e5e5;
 }
 
 .login-button:hover:not(:disabled) {
-  background-color: #368a6b;
+  background-color: #cf5300;
 }
 
 .login-failed {

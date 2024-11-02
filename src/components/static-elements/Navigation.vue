@@ -3,7 +3,11 @@ import { ref, onMounted, watchEffect } from "vue"
 import { remoteEvent } from '../remoteEvent';
 
 const props = defineProps({
-
+    flashOnly: {
+        type: Boolean,
+        default: false,
+        required: false
+    }
 })
 
 const menuActive = ref(false)
@@ -38,16 +42,18 @@ const handleSubmit = (event) =>{
 }
 
 onMounted(()=>{
-    const header = document.querySelector(".header").offsetHeight
-    const scrollHeight = header + 10
+    if(!props.flashOnly){
+        const header = document.querySelector(".header").offsetHeight
+        const scrollHeight = header + 10
 
-    window.onscroll = () =>{
-        if(!hasScrolled.value && window.scrollY >= scrollHeight){
-            hasScrolled.value = true
-            navbar.value.style.cssText = "position: fixed; top: 0;"
-        } else if(hasScrolled.value && window.scrollY <= scrollHeight){
-            hasScrolled.value = false
-            navbar.value.style.cssText = "position: relative; top: none;"
+        window.onscroll = () =>{
+            if(!hasScrolled.value && window.scrollY >= scrollHeight){
+                hasScrolled.value = true
+                navbar.value.style.cssText = "position: fixed; top: 0;"
+            } else if(hasScrolled.value && window.scrollY <= scrollHeight){
+                hasScrolled.value = false
+                navbar.value.style.cssText = "position: relative; top: none;"
+            }
         }
     }
 })
@@ -55,7 +61,7 @@ onMounted(()=>{
 </script>
 
 <template>
-<div class="container">
+<div v-if="!props.flashOnly" class="container">
     <nav ref="navbar" class="navbar">
         <menu :class="{ 'active': menuActive}">
             <li :class="{ 'active': $route.path === '/'}"><RouterLink to="/">Forside</RouterLink></li>
