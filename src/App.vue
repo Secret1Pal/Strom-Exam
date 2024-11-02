@@ -4,9 +4,13 @@ import { reactive, provide, onMounted, computed } from "vue"
 import Header from './components/static-elements/Header.vue';
 import Navigation from './components/static-elements/Navigation.vue';
 import Footer from './components/static-elements/Footer.vue';
+import useRequestData from './hook/useRequestData';
+import Loader from './assets/Loader.vue';
 
 const router = useRouter()
 const route = useRoute()
+
+const {makeRequest, isLoading} = useRequestData()
 
 const userState = reactive({
   isLoggedIn: false,
@@ -23,6 +27,7 @@ const login = (userData, isAdmin = false) => {
 
 const logout = () => {
   if(confirm("Are you sure you want to logout?")){
+    makeRequest("http://127.0.0.1:5333/login/logout")
     userState.isLoggedIn = false
     userState.isAdmin = false
     userState.name = ''
@@ -51,6 +56,7 @@ onMounted(()=>{
 </script>
 
 <template>
+  <Loader v-if="isLoading"/>
   <Header v-if="!isAdminRoute"/>
   <Navigation :flash-only="isAdminRoute"/>
   <RouterView />

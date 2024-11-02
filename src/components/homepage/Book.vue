@@ -1,17 +1,32 @@
 <script setup>
+import { ref } from 'vue';
+import useRequestData from '@/hook/useRequestData';
+import Loader from '@/assets/Loader.vue';
 
-const handleSubmit = (event) =>{
+const {data, makeRequest, isLoading} = useRequestData()
+
+const check = ref("")
+
+const handleSubmit = async(event) =>{
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const fd = new FormData(event.target)
-
-    for (const [key, value] of fd) {
-        console.log(`${key}: ${value}`)
+    for(const [key, value] of fd){
+        if(key == "email"){
+            if(emailRegex.test(value)){
+                check.value = "Booking Submitted!"
+            } else {
+                check.value = "Invalid email"
+                return
+            }
+        }
     }
+    await makeRequest("http://127.0.0.1:5333/booking", "POST", fd)
 }
 
 </script>
 
 <template>
-
+<Loader v-if="isLoading"/>
 <div class="container">
     <div class="content">
         <div><span style="color: #ff6600;">Book</span><br> service nu</div>
@@ -21,7 +36,7 @@ const handleSubmit = (event) =>{
             <input type="tel" name="phone" placeholder="Telefon nr." required>
             <button type="submit">Send</button>
         </form>
-        <div class="error" v-if="error">Network error</div>
+        <div class="error" v-if="check">{{check}}</div>
     </div>
 </div>
 

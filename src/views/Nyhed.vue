@@ -1,22 +1,45 @@
 <script setup>
 import Breadcrumb from '@/components/Breadcrumb.vue';
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import rawData from "../assets/json/news.json"
+import useRequestData from '@/hook/useRequestData';
+import Loader from '@/assets/Loader.vue';
 
-const sortedData = ref(rawData.sort((a, b) => new Date(b.received) - new Date(a.received)));
-
-const latestNews = computed(() => {return sortedData.value.slice(0, 4)})
+const {data, makeRequest, isLoading} = useRequestData()
+const {data: singleData, makeRequest: singleRequest, isLoading: singleLoading} = useRequestData()
 
 const route = useRoute()
 const id = ref(route.params.id)
-const data = ref(rawData[0])
+const sortedData = ref([])
+
+watch(() => route.params.id, () => {
+    location.reload()
+})
+
+async function loadData(){
+    await singleRequest("http://127.0.0.1:5333/news/" + id.value)
+    await makeRequest("http://127.0.0.1:5333/news")
+    let random = fisherYatesShuffle(data.value)
+    sortedData.value = random.slice(0, 4)
+}
+
+const latestNews = computed(() => {return sortedData.value.slice(0, 4)})
 
 const handleSubmit = (event) =>{
     const fd = new FormData(event.target);
     for (const [key, value] of fd) {
         console.log(`${key}: ${value}`)
     }
+}
+
+function fisherYatesShuffle(array) {
+    let currentIndex = array.length, randomIndex;
+    while (currentIndex !== 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+        [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+    }
+    return array;
 }
 
 function formatDate(dateString) {
@@ -42,10 +65,15 @@ function formatDateWYearMonthFirst(dateString) {
   return `${month} ${day}, ${year}`;
 }
 
+onMounted(()=>{
+    loadData()
+})
+
 </script>
 
 <template>
-<Breadcrumb nav="Ny lærling" title="Ny lærling" middle-nav="Nyheder" middle-route="nyheder"/>
+<Loader v-if="isLoading || singleLoading" />
+<Breadcrumb :nav="singleData?.title" :title="singleData?.title" middle-nav="Nyheder" middle-route="nyheder"/>
 
 <div class="container">
     <div class="content-container">
@@ -54,8 +82,8 @@ function formatDateWYearMonthFirst(dateString) {
             <div class="archives">
                 <div class="archive" v-for="item in latestNews">
                     <figure>
-                        <RouterLink :to="{ name: 'nyhed', params: { id: item._id.$oid } }">
-                        <img :src="`/images/news/${item.image}`" alt="">
+                        <RouterLink :to="{ name: 'nyhed', params: { id: item._id } }">
+                            <img :src="`http://localhost:5333/images/news/${item.image}`" :alt="`Image for news article: ${item.title}`">
                         </RouterLink>
                     </figure>
                     <div class="archive-content">
@@ -67,21 +95,21 @@ function formatDateWYearMonthFirst(dateString) {
         </div>
         <div class="card-container">
             <div class="card">
-                <div class="date">{{ formatDate(data.received) }}</div>
+                <div class="date">{{ formatDate(singleData?.received) }}</div>
                 <figure>
-                    <img :src="`/images/news/${data.image}`" alt="">
+                    <img :src="`http://localhost:5333/images/news/${singleData?.image}`" alt="">
                 </figure>
                 <div class="card-content">
-                    <v-icon name="fa-regular-comments"/> {{ data.comments.length }} Kommentar
-                    <div class="title">{{ data.title }}</div>
+                    <v-icon name="fa-regular-comments"/> {{ singleData?.comments.length }} Kommentar
+                    <div class="title">{{ singleData?.title }}</div>
                     <div class="line"></div>
-                    <p v-html="data.content"></p>
+                    <p v-html="singleData?.content"></p>
                 </div>
             </div>
         </div>
         <div class="comments">
-            <div class="title">Kommentarer ({{ data.comments.length }})</div>
-            <div class="comment" v-for="item in data.comments">
+            <div class="title">Kommentarer ({{ singleData?.comments.length }})</div>
+            <div class="comment" v-for="item in singleData?.comments">
                 <div class="name">{{ item.name }}</div>
                 <div class="date"><v-icon name="fa-calendar-alt"/>{{ formatDateWYearMonthFirst(item.received) }}</div>
                 <div class="text">{{ item.comment }}</div>

@@ -1,12 +1,17 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from "vue"
+import useRequestData from '@/hook/useRequestData';
+import Loader from '@/assets/Loader.vue';
 
-const html = ref("<p><span>Bedste chokolade</span><br />Vi matcher alle</p>")
+const {data, makeRequest, isLoading} = useRequestData()
+
+async function loadData(){
+    await makeRequest("http://127.0.0.1:5333/slider")
+}
 
 const activeLeft = ref(true)
 const activeRight = ref(true)
 const currentIndex = ref(0);
-const sliderOn = ref(null)
 let pressAble = true;
 let autoSlideInterval;
 
@@ -55,7 +60,7 @@ const setSlidePosition = () => {
         (pressAble = true)
         activeLeft.value = false
         activeRight.value = false
-    }, 400);
+    }, 600);
 }
 
 const startAutoSlide = () => {
@@ -67,6 +72,7 @@ const stopAutoSlide = () => {
 }
 
 onMounted(() => {
+    loadData()
     setSlidePosition();
     if(window.innerWidth > 500){
         startAutoSlide();
@@ -80,23 +86,11 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-
+    <Loader v-if="isLoading"/>
     <div :class="slider.container">
-        <div class="slide">
-            <img src="/images/slider/1.jpg">
-            <div :class="slider.text" v-html="html">
-                
-            </div>
-        </div>
-        <div class="slide">
-            <img v-lazy data-src="/images/slider/2.jpg">
-            <div :class="slider.text" v-html="html">
-                
-            </div>
-        </div>
-        <div class="slide">
-            <img v-lazy data-src="/images/slider/3.jpg">
-            <div :class="slider.text" v-html="html">
+        <div class="slide" v-for="item in data">
+            <img :src="`http://localhost:5333/images/slider/${item.image}`">
+            <div :class="slider.text" v-html="item.caption">
                 
             </div>
         </div>

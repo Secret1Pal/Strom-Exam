@@ -2,11 +2,18 @@
 import Breadcrumb from '@/components/Breadcrumb.vue';
 import Testimonial from '@/components/homepage/Testimonial.vue';
 import Team from '@/components/homepage/Team.vue';
-import { onMounted, ref } from 'vue';
+import { onMounted } from 'vue';
+import useRequestData from '@/hook/useRequestData';
+import Loader from '@/assets/Loader.vue';
 
-const html = ref("<p><strong>Hvem er vi <u>mon</u></strong></p><p>Derudover er vores el-firma eksperter inden for strømbesparende løsninger. Så ønsker du at spare på energien, har vi et bredt udvalg af produkter og komponenter til elinstallationer, som gavner både elregningen og miljøet.</p><ul><li>Antenneinstallation</li><li><strong>Varmepumper</strong></li><li><em>Solceller</em></li><li>Og meget andet ...</li></ul>")
+const {data, makeRequest, isLoading} = useRequestData()
+
+async function loadData(){
+    await makeRequest("http://127.0.0.1:5333/about")
+}
 
 onMounted(() => {
+    loadData()
 
     const titleElement = document.getElementById("title");
     titleElement.innerHTML = titleElement.innerHTML.replace("STRØM", "<span style='color: #ff6600; font-weight: bold;'>STRØM</span>");
@@ -17,24 +24,22 @@ onMounted(() => {
 </script>
 
 <template>
+    <Loader v-if="isLoading" />
     <Breadcrumb title="Om os" nav="Om os" />
 
     <div :class="about.container">
-        <h3 id="title">Lidt om STRØM</h3>
-        <p>Lorems ipsum dolor sit amet, consectetur adipiscing elit. Fusce quis lectus quis sem lacinia nonummy. Proin
-            mollis lorem non dolor. In hac habitasse platea dictumst. Nulla ultrices odio. Donec augue. Phasellus dui.
-            Maecenas facilisis nisl vitae nibh. Proin vel seo est vitae eros pretium dignissim. Aliquam aliquam sodales
-            orci. Suspendisse potenti. Nunc adipiscing euismod arcu. Quisque facilisis mattis lacus.</p>
+        <h3 id="title">{{ data?.title }}</h3>
+        <p>{{ data?.teaser }}</p>
         <div :class="about.line"></div>
     </div>
 
     <div :class="about.secondContainer">
         <div :class="about.content">
-            <div id="subtitle" :class="about.text" v-html="html"></div>
+            <div id="subtitle" :class="about.text" v-html="data?.content"></div>
             <RouterLink to="/contact">Kontakt os</RouterLink>
         </div>
         <figure>
-            <img v-lazy data-src="/images/1.jpg" alt="">
+            <img v-lazy :data-src="`http://localhost:5333/images/about/${data?.image}`" alt="">
         </figure>
     </div>
 

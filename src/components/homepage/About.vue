@@ -1,19 +1,27 @@
 <script setup>
 import { onMounted } from 'vue';
+import useRequestData from '@/hook/useRequestData';
+import Loader from '@/assets/Loader.vue';
 
-onMounted(()=>{
+const {data, makeRequest, isLoading} = useRequestData()
 
+async function loadData(){
+    await makeRequest("http://127.0.0.1:5333/about")
     const titleElement = document.getElementById("title");
     titleElement.innerHTML = titleElement.innerHTML.replace("STRØM", "<span style='color: #ff6600; font-weight: bold;'>STRØM</span>");
+}
+
+onMounted(()=>{
+    loadData()
 })
 
 </script>
 
 <template>
-
+<Loader v-if="isLoading" />
 <div class="container">
-    <h3 id="title">Lidt om STRØM</h3>
-    <p>Lorems ipsum dolor sit amet, consectetur adipiscing elit. Fusce quis lectus quis sem lacinia nonummy. Proin mollis lorem non dolor. In hac habitasse platea dictumst. Nulla ultrices odio. Donec augue. Phasellus dui. Maecenas facilisis nisl vitae nibh. Proin vel seo est vitae eros pretium dignissim. Aliquam aliquam sodales orci. Suspendisse potenti. Nunc adipiscing euismod arcu. Quisque facilisis mattis lacus.</p>
+    <h3 id="title">{{data?.title}}</h3>
+    <p>{{ data?.teaser }}</p>
     <RouterLink to="/about">Læs mere</RouterLink>
 </div>
 

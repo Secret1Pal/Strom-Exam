@@ -37,8 +37,6 @@ if (!userState.isLoggedIn) {
         <RouterLink to="/admin/home">To Endpoint</RouterLink>
       </div>
     </div>
-
-    <div class="space"></div>
   </template>
 </template>
 
@@ -49,7 +47,7 @@ if (!userState.isLoggedIn) {
   margin: 100px auto;
   padding: 0 20px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   gap: 20px;
   flex-flow: row wrap;
   align-items: stretch;

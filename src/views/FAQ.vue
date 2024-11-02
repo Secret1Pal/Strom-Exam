@@ -1,25 +1,14 @@
 <script setup>
 import Breadcrumb from '@/components/Breadcrumb.vue';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import useRequestData from '@/hook/useRequestData';
+import Loader from '@/assets/Loader.vue';
 
-const data = [
-  {
-    "question": "Hvornår er strømmen billigst?",
-    "answer": "Det gør heller ikke mere. Men hvor vi nu overbringer denne størrelse til det søgeoptimering handler om, så kan der fortælles op til 3 gange. Hvis det er træet til dit bord der får dig op, er det snarere varmen over de andre. ",
-  },
-  {
-    "question": "Hvad er flexafregning?",
-    "answer": "Selv om hun har sat alt mere frem, og derfor ikke længere kan betragtes som den glade giver, er det en nem sammenstilling, som bærer ved i lang tid. Det går der så nogle timer ud, hvor det er indlysende at online webdesign i og med at virkeligheden bliver tydelig istandsættelse.",
-  },
-  {
-    "question": "Hvor meget koster det?",
-    "answer": "Og derfor ikke længere kan betragtes som den glade giver, er det en nem sammenstilling, som bærer ved i lang tid. Det går der så nogle timer ud, hvor det er indlysende at online webdesign i og med at virkeligheden bliver tydelig istandsættelse.",
-  },
-  {
-    "question": "Hvad må du selv lave?",
-    "answer": "Man kan fremad se, at de har været udset til at læse, at der skal dannes par af ligheder. Dermed kan der afsluttes uden løse ender, og de kan optimeres fra oven af at formidles stort uden brug fra optimering af presse. I en kant af landet går der blandt om, at de vil sætte den over forbehold for tiden. ",
-  }
-]
+const {data, makeRequest, isLoading} = useRequestData()
+
+async function loadData(){
+    await makeRequest("http://127.0.0.1:5333/faq")
+}
 
 const selectedAccord = ref(null)
 const AccordId = ref(null)
@@ -41,9 +30,14 @@ const triggerAccord = (event, id) =>{
     }
 }
 
+onMounted(()=>{
+    loadData()
+})
+
 </script>
 
 <template>
+<Loader v-if="isLoading"/>
 <Breadcrumb title="FAQ - ofte stillede spørgsmål" nav="FAQ"/>
 
 <div class="container">

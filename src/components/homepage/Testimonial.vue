@@ -1,5 +1,35 @@
-<template>
+<script setup>
+import { onMounted, ref } from 'vue';
+import useRequestData from '@/hook/useRequestData';
+import Loader from '@/assets/Loader.vue';
 
+const {data, makeRequest, isLoading} = useRequestData()
+
+const shuffledItems = ref([])
+
+async function loadData(){
+    await makeRequest("http://127.0.0.1:5333/testimonial")
+    let random = fisherYatesShuffle(data.value)
+    shuffledItems.value = random.slice(0, 3)
+}
+
+function fisherYatesShuffle(array) {
+    let currentIndex = array.length, randomIndex;
+    while (currentIndex !== 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+        [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+    }
+    return array;
+}
+
+onMounted(()=>{
+    loadData()
+})
+
+</script>
+<template>
+<Loader v-if="isLoading" />
 <div class="container">
     <figure class="img-container">
         <img src="/images/backgroundimage.jpg" alt="Background image of windmills and a truck.">
@@ -10,29 +40,13 @@
         <div class="line"></div>
     </div>
     <div class="testimonials">
-        <div class="card">
+        <div class="card" v-for="item in shuffledItems">
             <figure>
-                <img src="/images/testi/1.jpg" alt="Holy image">
+                <img :src="`http://localhost:5333/images/testimonial/${item.image}`" alt="Holy image">
             </figure>
-            <div class="name">Alisa Robertson</div>
-            <div class="title">Happy Client</div>
-            <p>Lorem ipsum dolor sit amet constur adipisicing elit, sed do eiusmtempor incid et dolore magna aliqu enim ad minim veniam quis nostrud exer cittion ullamco laboris </p>
-        </div>
-        <div class="card">
-            <figure>
-                <img src="/images/testi/2.jpg" alt="Holy image">
-            </figure>
-            <div class="name">Alisa Robertson</div>
-            <div class="title">Happy Client</div>
-            <p>Lorem ipsum dolor sit amet constur adipisicing elit, sed do eiusmtempor incid et dolore magna aliqu enim ad minim veniam quis nostrud exer cittion ullamco laboris </p>
-        </div>
-        <div class="card">
-            <figure>
-                <img src="/images/testi/3.jpg" alt="Holy image">
-            </figure>
-            <div class="name">Alisa Robertson</div>
-            <div class="title">Happy Client</div>
-            <p>Lorem ipsum dolor sit amet constur adipisicing elit, sed do eiusmtempor incid et dolore magna aliqu enim ad minim veniam quis nostrud exer cittion ullamco laboris </p>
+            <div class="name">{{item.name}}</div>
+            <div class="title">{{ item.title }}</div>
+            <p>{{ item.review }}</p>
         </div>
     </div>
 </div>

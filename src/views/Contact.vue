@@ -1,12 +1,37 @@
 <script setup>
 import Breadcrumb from '@/components/Breadcrumb.vue';
+import { ref, onMounted } from 'vue';
+import useRequestData from '@/hook/useRequestData';
+import Loader from '@/assets/Loader.vue';
 
-const handleSubmit = (event) =>{
+const {data: displayData, makeRequest: displayRequest, isLoading: displayLoading} = useRequestData()
+const {data, makeRequest, isLoading} = useRequestData()
+
+const check = ref("")
+
+const loadData = async() =>{
+    await displayRequest("http://127.0.0.1:5333/contactinformation")
+} 
+
+const handleSubmit = async(event) =>{
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const fd = new FormData(event.target)
     for(const [key, value] of fd){
-        console.log(`${key}: ${value}`)
+        if(key == "email"){
+            if(emailRegex.test(value)){
+                check.value = "Message sent!"
+            } else {
+                check.value = "Invalid email"
+                return
+            }
+        }
     }
+    await makeRequest("http://127.0.0.1:5333/contact", "POST", fd)
 }
+
+onMounted(()=>{
+    loadData()
+})
 
 </script>
 
@@ -18,21 +43,21 @@ const handleSubmit = (event) =>{
         <v-icon name="fa-map-marker-alt" fill="#ff6600"/>
         <div>
             <div class="title">Adresse</div>
-            <div class="text">Strømparken 1, 8500 Grenaa.</div>
+            <div class="text">{{ displayData?.address }}, {{ displayData?.zipcity }}</div>
         </div>
     </div>
     <div class="info">
         <v-icon name="fa-phone-alt" fill="#ff6600"/>
         <div>
             <div class="title">Telefon</div>
-            <div class="text">[45] 86 45 45 78</div>
+            <div class="text">{{ displayData?.phone }}</div>
         </div>
     </div>
     <div class="info">
         <v-icon name="fa-mail-bulk" fill="#ff6600"/>
         <div>
             <div class="title">Email</div>
-            <div class="text">info@stroem.dk</div>
+            <div class="text">{{ displayData?.email }}</div>
         </div>
     </div>
 </div>
@@ -48,8 +73,9 @@ const handleSubmit = (event) =>{
                     <input type="email" name="email" placeholder="Din email" required>
                     <input type="tel" name="phone" placeholder="Telefon nr." required>
                 </div>
-                <textarea name="mmessage" placeholder="Din besked..." required></textarea>
+                <textarea name="message" placeholder="Din besked..." required></textarea>
             </div>
+            <div class="check" v-if="check">{{ check }}</div>
             <button type="submit">Send besked</button>
         </form>
     </div>
@@ -133,6 +159,10 @@ const handleSubmit = (event) =>{
             }
             .flex{
                 display: flex;
+            }
+            .check{
+                margin: 5px 0;
+                color: #676a73;
             }
             input,textarea{
                 box-sizing: border-box;

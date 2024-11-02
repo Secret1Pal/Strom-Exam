@@ -1,10 +1,19 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue';
+import useRequestData from '@/hook/useRequestData';
+import Loader from '@/assets/Loader.vue';
+
+const {data, makeRequest, isLoading} = useRequestData()
+
+async function loadData(){
+    await makeRequest("http://127.0.0.1:5333/contactinformation")
+}
 
 const hasScrolled = ref(false)
 
-
 onMounted(() => {
+    loadData()
+
     const handleScroll = () => {
         if (!hasScrolled.value && window.scrollY >= 700) {
             hasScrolled.value = true
@@ -23,15 +32,16 @@ onMounted(() => {
 </script>
 
 <template>
+    <Loader v-if="isLoading"/>
     <header id="top" class="header">
         <div class="content">
             <figure>
                 <img src="/images/logo.png" alt="STRØM logo">
             </figure>
             <ol>
-                <li><v-icon name="fa-map-marker-alt" scale="0.7" fill="#ff6600"/>Strømparken 1, 8500 Grenaa</li>
-                <li><v-icon name="fa-regular-clock" scale="0.7" fill="#ff6600"/>Man - fre 9.00 - 18.00</li>
-                <li><v-icon name="fa-phone-alt" scale="0.7" fill="#ff6600"/>(+45) 86 45 45 78</li>
+                <li><v-icon name="fa-map-marker-alt" scale="0.7" fill="#ff6600"/>{{ data?.address }}, {{ data?.zipcity }}</li>
+                <li><v-icon name="fa-regular-clock" scale="0.7" fill="#ff6600"/>{{ data?.openinghours }}</li>
+                <li><v-icon name="fa-phone-alt" scale="0.7" fill="#ff6600"/>{{ data?.phone }}</li>
             </ol>
         </div>
     </header>

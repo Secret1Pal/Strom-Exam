@@ -1,5 +1,33 @@
-<template>
+<script setup>
+import { onMounted } from 'vue';
+import useRequestData from '@/hook/useRequestData';
+import Loader from '@/assets/Loader.vue';
 
+const {data, makeRequest, isLoading} = useRequestData()
+
+async function loadData(){
+    await makeRequest("http://127.0.0.1:5333/service")
+}
+
+function formatCutText(text) {
+    const charLimit = 110;
+    if (text.length > charLimit) {
+        let newText = text.slice(0, charLimit);
+        const lastSpace = newText.lastIndexOf(" ");
+        if (lastSpace !== -1) {
+            newText = newText.slice(0, lastSpace); // Trim to the last whole word
+        }
+        return `${newText}...`;
+    }
+    return text;
+}
+
+onMounted(()=>{
+    loadData()
+})
+</script>
+<template>
+<Loader v-if="isLoading" />
 <div class="container">
     <div class="content">
         <div class="services">
@@ -7,32 +35,11 @@
             <p>Lorems ipsum dolor sit amet, consectetur adipiscing elit sed do eiusm tempor</p>
             <div class="line"></div>
             <div class="service-box">
-                <div class="service">
-                    <i class="fi flaticon-lamp"></i>
+                <div class="service" v-for="item in data">
+                    <i :class="{ [item.icon]: true, 'fi': true }"></i>
                     <div class="text">
-                        <div class="title">Strøm</div>
-                        <p>Lorem ipsum dolor sit amet constur adip isicg elit sed do eiusmtempor incid dolore magna.</p>
-                    </div>
-                </div>
-                <div class="service">
-                    <i class="fi flaticon-technology"></i>
-                    <div class="text">
-                        <div class="title">Sikkerhed</div>
-                        <p>Lorem ipsum dolor sit amet constur adip isicg elit sed do eiusmtempor incid dolore magna.</p>
-                    </div>
-                </div>
-                <div class="service">
-                    <i class="fi flaticon-fan"></i>
-                    <div class="text">
-                        <div class="title">Air Conditioning</div>
-                        <p>Lorem ipsum dolor sit amet constur adip isicg elit sed do eiusmtempor incid dolore magna.</p>
-                    </div>
-                </div>
-                <div class="service">
-                    <i class="fi flaticon-air-conditioner-1"></i>
-                    <div class="text">
-                        <div class="title">Varme</div>
-                        <p>Lorem ipsum dolor sit amet constur adip isicg elit sed do eiusmtempor incid dolore magna.</p>
+                        <div class="title">{{ item.title }}</div>
+                        <p>{{ formatCutText(item.teaser) }}</p>
                     </div>
                 </div>
             </div>

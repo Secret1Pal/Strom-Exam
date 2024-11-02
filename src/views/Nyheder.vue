@@ -1,9 +1,17 @@
 <script setup>
 import Breadcrumb from '@/components/Breadcrumb.vue';
-import rawData from "../assets/json/news.json"
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
+import useRequestData from '@/hook/useRequestData';
+import Loader from '@/assets/Loader.vue';
 
-const sortedData = ref(rawData.sort((a, b) => new Date(b.received) - new Date(a.received)));
+const {data, makeRequest, isLoading} = useRequestData()
+
+const sortedData = ref([])
+
+async function loadData(){
+    await makeRequest("http://127.0.0.1:5333/news")
+    sortedData.value = data.value.sort((a, b) => new Date(b.received) - new Date(a.received))
+}
 
 const currentPage = ref(1);
 const itemsPerPage = 4;
@@ -100,9 +108,14 @@ function formatCutText(text) {
     return text;
 }
 
+onMounted(()=>{
+    loadData()
+})
+
 </script>
 
 <template>
+<Loader v-if="isLoading"/>
 <Breadcrumb title="Nyheder" nav="Nyheder"/>
 
 <div class="container">
@@ -112,8 +125,8 @@ function formatCutText(text) {
             <div class="archives">
                 <div class="archive" v-for="item in archiveNews">
                     <figure>
-                        <RouterLink :to="{ name: 'nyhed', params: { id: item._id.$oid } }">
-                        <img :src="`/images/news/${item.image}`" alt="">
+                        <RouterLink :to="{ name: 'nyhed', params: { id: item._id } }">
+                            <img :src="`http://localhost:5333/images/news/${item.image}`" alt="">
                         </RouterLink>
                     </figure>
                     <div class="archive-content">
@@ -127,8 +140,8 @@ function formatCutText(text) {
             <div class="card" v-for="item in latestNews">
                 <div class="date">{{ formatDate(item.received) }}</div>
                 <figure>
-                    <RouterLink :to="{ name: 'nyhed', params: { id: item._id.$oid } }">
-                        <img :src="`/images/news/${item.image}`" alt="">
+                    <RouterLink :to="{ name: 'nyhed', params: { id: item._id } }">
+                        <img :src="`http://localhost:5333/images/news/${item.image}`" alt="">
                     </RouterLink>
                 </figure>
                 <div class="card-content">

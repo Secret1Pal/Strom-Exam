@@ -14,17 +14,17 @@ const router = useRouter()
 const loginFailed = ref("")
 
 const handleSubmit = async (event) => {
-  const newPost = new FormData(event.target);
-  for (const [key, value] of newPost) {
+  const LoginPost = new FormData(event.target);
+  for (const [key, value] of LoginPost) {
     console.log(`${key}: ${value}`)
   }
-  await makeRequest("https://jsonplaceholder.typicode.com/posts", "POST", newPost);
+  await makeRequest("http://127.0.0.1:5333/login/login", "POST", LoginPost);
 
   if (error.value) {
     loginFailed.value = error.value;
   } else if (data.value) {
-    let isAdmin = false
-    localStorage.setItem("userData", JSON.stringify(data.value))
+    let isAdmin = data.value.admin
+    localStorage.setItem("userData", JSON.stringify(data.value.name))
     localStorage.setItem("isUserAdmin", JSON.stringify(isAdmin))
     let userData = JSON.parse(localStorage.getItem("userData"))
     let isUserAdmin = JSON.parse(localStorage.getItem("isUserAdmin"))

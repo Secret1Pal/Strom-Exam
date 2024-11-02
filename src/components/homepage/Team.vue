@@ -1,5 +1,21 @@
-<template>
+<script setup>
+import { onMounted } from 'vue';
+import useRequestData from '@/hook/useRequestData';
+import Loader from '@/assets/Loader.vue';
 
+const {data, makeRequest, isLoading} = useRequestData()
+
+async function loadData(){
+    await makeRequest("http://127.0.0.1:5333/team")
+}
+
+onMounted(()=>{
+    loadData()
+})
+
+</script>
+<template>
+<Loader v-if="isLoading" />
 <div class="container">
     <div class="content">
         <h3>Vores <span>team</span></h3>
@@ -7,54 +23,12 @@
         <div class="line"></div>
     </div>
     <div class="team">
-        <div class="person">
+        <div class="person" v-for="item in data">
             <div class="bg-element"></div>
-            <img v-lazy data-src="/images/team/1.png" alt="">
+            <img v-lazy :data-src="`http://localhost:5333/images/team/${item.image}`" alt="">
             <div class="accordian">
-                <div class="name">Mads Jull</div>
-                <div class="title">Elektriker</div>
-                <div class="some">
-                    <a href="https://theuselessweb.com" target="_blank"><v-icon name="fa-facebook-f" fill="#f8f8fa"/></a>
-                    <a href="https://theuselessweb.com" target="_blank"><v-icon name="fa-twitter" fill="#f8f8fa"/></a>
-                    <a href="https://theuselessweb.com" target="_blank"><v-icon name="fa-linkedin-in" fill="#f8f8fa"/></a>
-                    <a href="https://theuselessweb.com" target="_blank"><v-icon name="fa-pinterest-p" fill="#f8f8fa"/></a>
-                </div>
-            </div>
-        </div>
-        <div class="person">
-            <div class="bg-element"></div>
-            <img v-lazy data-src="/images/team/2.png" alt="">
-            <div class="accordian">
-                <div class="name">Mads Jull</div>
-                <div class="title">Elektriker</div>
-                <div class="some">
-                    <a href="https://theuselessweb.com" target="_blank"><v-icon name="fa-facebook-f" fill="#f8f8fa"/></a>
-                    <a href="https://theuselessweb.com" target="_blank"><v-icon name="fa-twitter" fill="#f8f8fa"/></a>
-                    <a href="https://theuselessweb.com" target="_blank"><v-icon name="fa-linkedin-in" fill="#f8f8fa"/></a>
-                    <a href="https://theuselessweb.com" target="_blank"><v-icon name="fa-pinterest-p" fill="#f8f8fa"/></a>
-                </div>
-            </div>
-        </div>
-        <div class="person">
-            <div class="bg-element"></div>
-            <img v-lazy data-src="/images/team/3.png" alt="">
-            <div class="accordian">
-                <div class="name">Mads Jull</div>
-                <div class="title">Elektriker</div>
-                <div class="some">
-                    <a href="https://theuselessweb.com" target="_blank"><v-icon name="fa-facebook-f" fill="#f8f8fa"/></a>
-                    <a href="https://theuselessweb.com" target="_blank"><v-icon name="fa-twitter" fill="#f8f8fa"/></a>
-                    <a href="https://theuselessweb.com" target="_blank"><v-icon name="fa-linkedin-in" fill="#f8f8fa"/></a>
-                    <a href="https://theuselessweb.com" target="_blank"><v-icon name="fa-pinterest-p" fill="#f8f8fa"/></a>
-                </div>
-            </div>
-        </div>
-        <div class="person">
-            <div class="bg-element"></div>
-            <img v-lazy data-src="/images/team/4.png" alt="">
-            <div class="accordian">
-                <div class="name">Mads Jull</div>
-                <div class="title">Elektriker</div>
+                <div class="name">{{item.name}}</div>
+                <div class="title">{{item.title}}</div>
                 <div class="some">
                     <a href="https://theuselessweb.com" target="_blank"><v-icon name="fa-facebook-f" fill="#f8f8fa"/></a>
                     <a href="https://theuselessweb.com" target="_blank"><v-icon name="fa-twitter" fill="#f8f8fa"/></a>
@@ -164,7 +138,7 @@
         &::after{
             content: "";
             position: absolute;
-            top: -15px;
+            top: -12px;
             left: 0;
             width: 0;
             height: 0;
@@ -175,7 +149,7 @@
         &::before{
             content: "";
             position: absolute;
-            top: -30px;
+            top: -27px;
             right: 0;
             width: 0;
             height: 0;
@@ -216,7 +190,7 @@
         &::after{
             content: "";
             position: absolute;
-            top: -30px;
+            top: -27px;
             left: 0;
             width: 0;
             height: 0;
@@ -227,7 +201,7 @@
         &::before{
             content: "";
             position: absolute;
-            top: -15px;
+            top: -12px;
             right: 0;
             width: 0;
             height: 0;

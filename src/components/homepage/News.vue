@@ -1,11 +1,17 @@
 <script setup>
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
+import useRequestData from '@/hook/useRequestData';
+import Loader from '@/assets/Loader.vue';
 
-const data = [
-  { received: "2022-11-03T11:44:58.382Z" },
-  { received: "2022-01-30T11:49:13.740Z" },
-  { received: "2022-06-02T11:48:34.711Z" }
-];
+const {data, makeRequest, isLoading} = useRequestData()
+
+const sortedData = ref([])
+
+async function loadData(){
+    await makeRequest("http://127.0.0.1:5333/news")
+    sortedData.value = data.value.sort((a, b) => new Date(b.received) - new Date(a.received))
+    sortedData.value = sortedData.value.slice(0, 3)
+}
 
 function formatDate(dateString) {
   const date = new Date(dateString) 
@@ -14,40 +20,26 @@ function formatDate(dateString) {
   return `${day} ${month}`
 }
 
-onMounted(()=>{
-
-    const cutText = document.querySelectorAll("#cutText")
-    let charLimit = 100
-    cutText.forEach((cutText)=>{
-        const fullText = cutText.textContent
-
-        if (fullText.length > charLimit) {
-            let newText = fullText.slice(0, charLimit)
-            let lastSpace = newText.lastIndexOf(" ")
-            if (lastSpace !== -1) {
-                newText = newText.slice(0, lastSpace) // Trim to the last whole word
-            }
-            cutText.textContent = newText + "..."
+function formatCutText(text) {
+    const charLimit = 100;
+    if (text.length > charLimit) {
+        let newText = text.slice(0, charLimit);
+        const lastSpace = newText.lastIndexOf(" ");
+        if (lastSpace !== -1) {
+            newText = newText.slice(0, lastSpace); // Trim to the last whole word
         }
-    })
-})
+        return `${newText}...`;
+    }
+    return text;
+}
 
-// function formatCutText(text) {
-//     const charLimit = 90;
-//     if (text.length > charLimit) {
-//         let newText = text.slice(0, charLimit);
-//         const lastSpace = newText.lastIndexOf(" ");
-//         if (lastSpace !== -1) {
-//             newText = newText.slice(0, lastSpace); // Trim to the last whole word
-//         }
-//         return `${newText}...`;
-//     }
-//     return text;
-// }
+onMounted(()=>{
+    loadData()
+})
 
 </script>
 <template>
-
+<Loader v-if="isLoading" />
 <div class="container">
     <div class="content">
         <h3>Sidste <span>nyt</span></h3>
@@ -55,35 +47,15 @@ onMounted(()=>{
         <div class="line"></div>
     </div>
     <div class="card-container">
-        <div class="card">
-            <div class="date">{{ formatDate(data[0].received) }}</div>
+        <div class="card" v-for="item in sortedData">
+            <div class="date">{{ formatDate(item.received) }}</div>
             <figure>
-                <RouterLink :to="{ name: 'nyhed', params: { id: data[1] } }">
-                    <img v-lazy data-src="/images/news/1.jpg" alt="">
+                <RouterLink :to="{ name: 'nyhed', params: { id: item._id } }">
+                    <img v-lazy :data-src="`http://localhost:5333/images/news/${item.image}`" alt="">
                 </RouterLink>
             </figure>
-            <div class="title">Få tjekket din varmepumpe</div>
-            <p id="cutText">Lorem ipsum dolor amet consectetur adipiciciing elit sed eiusm tempor incididunt ut labore dolore magna aliqua enim ad minim</p>
-        </div>
-        <div class="card">
-            <div class="date">{{ formatDate(data[1].received) }}</div>
-            <figure>
-                <RouterLink :to="{ name: 'nyhed', params: { id: data[1] } }">
-                    <img v-lazy data-src="/images/news/2.jpg" alt="">
-                </RouterLink>
-            </figure>
-            <div class="title">Få tjekket din varmepumpe</div>
-            <p id="cutText">Lorem ipsum dolor amet consectetur adipiciciing elit sed eiusm tempor incididunt ut labore dolore magna aliqua enim ad minim</p>
-        </div>
-        <div class="card">
-            <div class="date">{{ formatDate(data[2].received) }}</div>
-            <figure>
-                <RouterLink :to="{ name: 'nyhed', params: { id: data[1] } }">
-                    <img v-lazy data-src="/images/news/3.jpg" alt="">
-                </RouterLink>
-            </figure>
-            <div class="title">Få tjekket din varmepumpe</div>
-            <p id="cutText">Lorem ipsum dolor amet consectetur adipiciciing elit sed eiusm tempor incididunt ut labore dolore magna aliqua enim ad minim</p>
+            <div class="title">{{ item.title }}</div>
+            <p>{{ formatCutText(item.content) }}</p>
         </div>
     </div>
     <RouterLink to="/nyheder" class="link">Flere nyheder</RouterLink>

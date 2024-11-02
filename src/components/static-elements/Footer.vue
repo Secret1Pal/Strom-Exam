@@ -1,16 +1,43 @@
 <script setup>
-import { inject } from 'vue';
+import { inject, onMounted, ref } from 'vue';
+import useRequestData from '@/hook/useRequestData';
+import Loader from '@/assets/Loader.vue';
 
-const handleSubmit = () =>{
+const {data, makeRequest, isLoading, error} = useRequestData()
+const {data: postData, makeRequest: postRequest, isLoading: postIsLoading, error: postError} = useRequestData()
 
+const check = ref("")
+
+async function loadData(){
+    await makeRequest("http://127.0.0.1:5333/contactinformation")
+}
+
+const handleSubmit = async(event) =>{
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const fd = new FormData(event.target)
+    await postRequest("http://127.0.0.1:5333/newssubscription", "POST", fd)
+    for(const [key, value] of fd){
+        if(emailRegex.test(value) && !postError.value){
+            check.value = "Email Submitted!"
+        } else if(postError.value){
+            check.value = "Email in use"
+        } else {
+            check.value = "Invalid email"
+        }
+    }
 }
 
 const { userState, login, logout } = inject("user");
+
+onMounted(()=>{
+    loadData()
+})
 
 </script>
 
 <template>
 <footer class="footer">
+    <Loader v-if="isLoading || postIsLoading"/>
     <RouterLink v-if="!userState.isLoggedIn" class="administrative_link" to="/login">Login...</RouterLink>
     <RouterLink v-else class="administrative_link" to="/admin/home">Return to Admin</RouterLink>
     <div class="main-content">
@@ -30,16 +57,17 @@ const { userState, login, logout } = inject("user");
         <div class="contact">
             <h4>Kontakt os</h4>
             <ol>
-                <li><span>Adresse</span>: Strømparken 1, 8500 Grenaa.</li>
-                <li><span>Telefon</span>: (45) 86 45 45 78</li>
-                <li><span>Email</span>: info@stroem.dk</li>
+                <li><span>Adresse</span>: {{ data?.address }}, {{ data?.zipcity }}</li>
+                <li><span>Telefon</span>: {{ data?.phone }}</li>
+                <li><span>Email</span>: {{ data?.email }}</li>
             </ol>
         </div>
         <div class="news">
             <h4>Nyhedsbrev</h4>
             <p>Tilmeld dig vores nyhedsbrev her</p>
             <form v-on:submit.prevent="handleSubmit">
-                <input type="email" name="email" placeholder="Din Email">
+                <input type="email" name="email" required placeholder="Din Email">
+                <div class="check">{{ check }}</div>
                 <button type="submit">Tilmeld</button>
             </form>
         </div>
@@ -186,6 +214,11 @@ const { userState, login, logout } = inject("user");
             margin: 20px 0 0 0;
             display: flex;
             flex-flow: column nowrap;
+
+            .check{
+                margin: 5px 0;
+                color: #e5e5e5;
+            }
 
             input{
                 border: 2px solid #474b5a;
